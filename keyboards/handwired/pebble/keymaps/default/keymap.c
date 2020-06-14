@@ -1,26 +1,66 @@
 #include "pebble.h"
 
-
 enum unicode_names {
-    BANG,
-    IRONY,
-    SNEK
+    a_AC,
+    A_AC,
+    e_AC,
+    E_AC,
+    i_AC,
+    I_AC,
+    o_AC,
+    O_AC,
+    o_DA,
+    O_DA,
+    o_DI,
+    O_DI,
+    u_AC,
+    U_AC,
+    u_DA,
+    U_DA,
+    u_DI,
+    U_DI,
 };
 
 const uint32_t PROGMEM unicode_map[] = {
-    [BANG]  = 0x00E1,  // ‽
-    [IRONY] = 0x2E2E,  // ⸮
-    [SNEK]  = 0x1F40D, // 🐍
+    [a_AC] = 0x00E1,
+    [e_AC] = 0x00E9,
+    [i_AC] = 0x00F6,
+    [o_AC] = 0x00F3,
+    [o_DA] = 0x0151,
+    [o_DI] = 0x00ED,
+    [u_AC] = 0x00FC,
+    [u_DA] = 0x00FA,
+    [u_DI] = 0x0171,
+
+    [A_AC] = 0x00C1,
+    [E_AC] = 0x00C9,
+    [I_AC] = 0x00D6,
+    [O_AC] = 0x00D3,
+    [O_DA] = 0x0150,
+    [O_DI] = 0x00CD,
+    [U_AC] = 0x00DC,
+    [U_DA] = 0x00DA,
+    [U_DI] = 0x0170,
 };
+
+#define AAC XP(a_AC, A_AC)
+#define EAC XP(e_AC, E_AC)
+#define IAC XP(i_AC, I_AC)
+#define OAC XP(o_AC, O_AC)
+#define ODA XP(o_DA, O_DA)
+#define ODI XP(o_DI, O_DI)
+#define UAC XP(u_AC, U_AC)
+#define UDA XP(u_DA, U_DA)
+#define UDI XP(u_DI, U_DI)
 
 // 00C1	Á	00E1	á	A acute
 // 00C9	É	00E9	é	E acute
-// 00CD	Í	00ED	í	I acute
-// 00D3	Ó	00F3	ó	O acute
 // 00D6	Ö	00F6	ö	O diaeresis
+// 00D3	Ó	00F3	ó	O acute
 // 0150	Ő	0151	ő	O double acute
-// 00DA	Ú	00FA	ú	U acute
+// 00CD	Í	00ED	í	I acute
 // 00DC	Ü	00FC	ü	U diaeresis
+// 00DA	Ú	00FA	ú	U acute
 // 0170	Ű	0171	ű	U double acute
 
 #define LAYOUT_miryoku( \
@@ -30,11 +70,11 @@ const uint32_t PROGMEM unicode_map[] = {
        N30,   N31,   K32,   K33,   K34,   K35,   K36,   K37,   N38,   N39 \
 ) \
 LAYOUT( \
-KC_LSFT, X(BANG), XP(IRONY, SNEK), KC_NO, KC_NO, KC_RSFT,  \
-KC_NO, K00,   K01,   K02,   K03,   K04,   K05,   K06,   K07,   K08,   K09,   KC_NO, \
-KC_LSFT, K10,   K11,   K12,   K13,   K14,   K15,   K16,   K17,   K18,   K19,   KC_RSFT, \
-KC_NO, K20,   K21,   K22,   K23,   K24,   K25,   K26,   K27,   K28,   K29,   KC_NO, \
-K32,   K33,   K34,   KC_NO, KC_NO, K35,   K36,   K37 \
+    IAC, EAC, AAC, ODI, OAC,  ODA, \
+    UDI, K00,   K01,   K02,   K03,   K04,   K05,   K06,   K07,   K08,   K09,   KC_NO, \
+    KC_LSFT, K10,   K11,   K12,   K13,   K14,   K15,   K16,   K17,   K18,   K19,   KC_RSFT, \
+    UAC, K20,   K21,   K22,   K23,   K24,   K25,   K26,   K27,   K28,   K29,   UDA, \
+    K32,   K33,   K34,   KC_NO, KC_NO, K35,   K36,   K37 \
 )
 
 #define KC_NP KC_NO // key is not present
