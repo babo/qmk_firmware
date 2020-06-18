@@ -1,46 +1,56 @@
 #include "pebble.h"
 
 enum unicode_names {
-    a_AC,
     A_AC,
-    e_AC,
     E_AC,
-    i_AC,
     I_AC,
-    o_AC,
     O_AC,
-    o_DA,
     O_DA,
-    o_DI,
     O_DI,
-    u_AC,
     U_AC,
-    u_DA,
     U_DA,
-    u_DI,
     U_DI,
+    a_AC,
+    e_AC,
+    i_AC,
+    o_AC,
+    o_DA,
+    o_DI,
+    u_AC,
+    u_DA,
+    u_DI,
 };
 
-const uint32_t PROGMEM unicode_map[] = {
-    [a_AC] = 0x00E1,
-    [e_AC] = 0x00E9,
-    [i_AC] = 0x00F6,
-    [o_AC] = 0x00F3,
-    [o_DA] = 0x0151,
-    [o_DI] = 0x00ED,
-    [u_AC] = 0x00FC,
-    [u_DA] = 0x00FA,
-    [u_DI] = 0x0171,
+// 00C1	Á	00E1	á	A acute
+// 00C9	É	00E9	é	E acute
+// 00D6	Ö	00F6	ö	O diaeresis
+// 00D3	Ó	00F3	ó	O acute
+// 0150	Ő	0151	ő	O double acute
+// 00CD	Í	00ED	í	I acute
+// 00DC	Ü	00FC	ü	U diaeresis
+// 00DA	Ú	00FA	ú	U acute
+// 0170	Ű	0171	ű	U double acute
 
+const uint32_t PROGMEM unicode_map[] = {
     [A_AC] = 0x00C1,
     [E_AC] = 0x00C9,
-    [I_AC] = 0x00D6,
+    [I_AC] = 0x00ED,
     [O_AC] = 0x00D3,
     [O_DA] = 0x0150,
-    [O_DI] = 0x00CD,
-    [U_AC] = 0x00DC,
-    [U_DA] = 0x00DA,
-    [U_DI] = 0x0170,
+    [O_DI] = 0x00D6,
+    [U_AC] = 0x00DA,
+    [U_DA] = 0x0170,
+    [U_DI] = 0x00DC,
+
+    [a_AC] = 0x00E1,
+    [e_AC] = 0x00E9,
+    [i_AC] = 0x00ED,
+    [o_AC] = 0x00F3,
+    [o_DA] = 0x0151,
+    [o_DI] = 0x00F6,
+    [u_AC] = 0x00FA,
+    [u_DA] = 0x0171,
+    [u_DI] = 0x00FC,
 };
 
 #define AAC XP(a_AC, A_AC)
@@ -53,16 +63,6 @@ const uint32_t PROGMEM unicode_map[] = {
 #define UDA XP(u_DA, U_DA)
 #define UDI XP(u_DI, U_DI)
 
-// 00C1	Á	00E1	á	A acute
-// 00C9	É	00E9	é	E acute
-// 00D6	Ö	00F6	ö	O diaeresis
-// 00D3	Ó	00F3	ó	O acute
-// 0150	Ő	0151	ő	O double acute
-// 00CD	Í	00ED	í	I acute
-// 00DC	Ü	00FC	ü	U diaeresis
-// 00DA	Ú	00FA	ú	U acute
-// 0170	Ű	0171	ű	U double acute
-
 #define LAYOUT_miryoku( \
        K00,   K01,   K02,   K03,   K04,   K05,   K06,   K07,   K08,   K09, \
        K10,   K11,   K12,   K13,   K14,   K15,   K16,   K17,   K18,   K19, \
@@ -70,11 +70,11 @@ const uint32_t PROGMEM unicode_map[] = {
        N30,   N31,   K32,   K33,   K34,   K35,   K36,   K37,   N38,   N39 \
 ) \
 LAYOUT( \
-    IAC, EAC, AAC, ODI, OAC,  ODA, \
-    UDI, K00,   K01,   K02,   K03,   K04,   K05,   K06,   K07,   K08,   K09,   KC_NO, \
+    KC_NO, EAC, AAC, IAC, OAC,  UAC, \
+    ODI, K00,   K01,   K02,   K03,   K04,   K05,   K06,   K07,   K08,   K09,   UDI, \
     KC_LSFT, K10,   K11,   K12,   K13,   K14,   K15,   K16,   K17,   K18,   K19,   KC_RSFT, \
-    UAC, K20,   K21,   K22,   K23,   K24,   K25,   K26,   K27,   K28,   K29,   UDA, \
-    K32,   K33,   K34,   KC_NO, KC_NO, K35,   K36,   K37 \
+    ODA, K20,   K21,   K22,   K23,   K24,   K25,   K26,   K27,   K28,   K29,   UDA, \
+    K32,   K33,   K34,   KC_SPC, KC_BSPC, K35,   K36,   K37 \
 )
 
 #define KC_NP KC_NO // key is not present
@@ -132,7 +132,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Q,              KC_W,              KC_F,              KC_P,              KC_B,              KC_J,              KC_L,              KC_U,              KC_Y,              KC_QUOT,
     LGUI_T(KC_A),      LALT_T(KC_R),      LCTL_T(KC_S),      LSFT_T(KC_T),      KC_G,              KC_M,              LSFT_T(KC_N),      LCTL_T(KC_E),      LALT_T(KC_I),      LGUI_T(KC_O),
     KC_Z,              ALGR_T(KC_X),      KC_C,              KC_D,              KC_V,              KC_K,              KC_H,              KC_COMM,           ALGR_T(KC_DOT),    KC_SLSH,
-    KC_NP,             KC_NP,             LT(MEDR, KC_ESC),  LT(NAVR, KC_ENT),  LT(MOUR, KC_TAB),  LT(NSSL, KC_BSPC),  LT(NSL, KC_SPC),  LT(FUNL, KC_DEL),  KC_NP,             KC_NP
+    KC_NP,             KC_NP,             LT(MEDR, KC_ESC),  LT(NAVR, KC_SPC),  LT(MOUR, KC_TAB),  LT(NSSL, KC_BSPC),  LT(NSL, KC_ENT),  LT(FUNL, KC_DEL),  KC_NP,             KC_NP
   ),
 #endif
   [NAVR] = LAYOUT_miryoku(
