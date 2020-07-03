@@ -33,7 +33,7 @@
 #define PREVENT_STUCK_MODIFIERS
 
 // default but important
-#define TAPPING_TERM 225
+#define TAPPING_TERM 175
 
 // Prevent normal rollover on alphas from accidentally triggering mods.
 #define IGNORE_MOD_TAP_INTERRUPT

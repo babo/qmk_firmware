@@ -63,6 +63,9 @@ const uint32_t PROGMEM unicode_map[] = {
 #define UDA XP(u_DA, U_DA)
 #define UDI XP(u_DI, U_DI)
 
+#define OS_LSFT OSM(MOD_LSFT)
+#define OS_RSFT OSM(MOD_RSFT)
+
 #define LAYOUT_miryoku( \
        K00,   K01,   K02,   K03,   K04,   K05,   K06,   K07,   K08,   K09, \
        K10,   K11,   K12,   K13,   K14,   K15,   K16,   K17,   K18,   K19, \
@@ -72,7 +75,7 @@ const uint32_t PROGMEM unicode_map[] = {
 LAYOUT( \
     KC_NO, EAC, AAC, IAC, OAC,  UAC, \
     ODI, K00,   K01,   K02,   K03,   K04,   K05,   K06,   K07,   K08,   K09,   UDI, \
-    KC_LSFT, K10,   K11,   K12,   K13,   K14,   K15,   K16,   K17,   K18,   K19,   KC_RSFT, \
+    OS_LSFT, K10,   K11,   K12,   K13,   K14,   K15,   K16,   K17,   K18,   K19, OS_RSFT, \
     ODA, K20,   K21,   K22,   K23,   K24,   K25,   K26,   K27,   K28,   K29,   UDA, \
     K32,   K33,   K34,   KC_SPC, KC_BSPC, K35,   K36,   K37 \
 )
@@ -179,6 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+/*
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
 	switch (id) {
@@ -196,37 +200,19 @@ void matrix_scan_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	return true;
 }
+*/
 
-void led_set_user(uint8_t usb_led) {
-
-	if (usb_led & (1 << USB_LED_NUM_LOCK)) {
-
-	} else {
-
-	}
-
-	if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
-
-	} else {
-
-	}
-
-	if (usb_led & (1 << USB_LED_SCROLL_LOCK)) {
-
-	} else {
-
-	}
-
-	if (usb_led & (1 << USB_LED_COMPOSE)) {
-
-	} else {
-
-	}
-
-	if (usb_led & (1 << USB_LED_KANA)) {
-
-	} else {
-
-	}
-
+bool mod_key_press(uint16_t code, uint16_t mod_code, bool pressed, uint16_t this_timer) {
+    if (pressed) {
+        this_timer = timer_read();
+    } else {
+        if (timer_elapsed(this_timer) < TAPPING_TERM) {
+            tap_code(code);
+        } else {
+            register_code(mod_code);
+            tap_code(code);
+            unregister_code(mod_code);
+        }
+    }
+    return false;
 }
