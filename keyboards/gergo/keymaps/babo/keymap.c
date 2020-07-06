@@ -1,89 +1,66 @@
-#include "drashna.h"
+#include QMK_KEYBOARD_H
 
-/*
- * The `LAYOUT_gergo_base` macro is a template to allow the use of identical
- * modifiers for the default layouts (eg QWERTY, Colemak, Dvorak, etc), so
- * that there is no need to set them up for each layout, and modify all of
- * them if I want to change them.  This helps to keep consistency and ease
- * of use. K## is a placeholder to pass through the individual keycodes
- */
-// clang-format off
-#define LAYOUT_gergo_base( \
-    K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, \
-    K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, \
-    K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A  \
-  ) \
-  LAYOUT_gergo_wrapper( \
-    KC_ESC,         K01,         K02,         K03,      K04,     K05,                                              K06,     K07,     K08,     K09,     K0A,     KC_MINS,      \
-    OS_LSFT,        K11,         K12,         K13,      K14,     K15,  KC_GRAVE,                       KC_BSLASH,  K16,     K17,     K18,     K19,     K1A,     MT(OS_RSFT, KC_EQUAL), \
-    LALT_T(KC_TAB), LCTL_T(K21), LGUI_T(K22), K23,      K24,     K25,  _______,  _______,       _______, _______,  K26,     K27,     K28,     RGUI_T(K29), RCTL_T(K2A), RALT_T(KC_QUOT),      \
-                                              OS_LGUI,  KC_ENT,  DL_RAIS, GUI_T(KC_ENT),       ALT_T(KC_SPC),  BK_LWER, KC_SPC,   KC_BSPC                            \
-    )
+#define KC_NP KC_NO // key is not present
+#define KC_NA KC_NO // present but not available for use
+#define KC_NU KC_NO // available but not used
 
-#define LAYOUT_gergo_base_wrapper(...)       LAYOUT_gergo_base(__VA_ARGS__)
+// non-KC_ keycodes
+#define KC_RST RESET
+#define KC_TOG RGB_TOG
+#define KC_MOD RGB_MOD
+#define KC_HUI RGB_HUI
+#define KC_SAI RGB_SAI
+#define KC_VAI RGB_VAI
+
+enum layers { BASE, MBO, MEDR, NAVR, MOUR, NSSL, NSL, FUNL };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [_QWERTY] = LAYOUT_gergo_base_wrapper(
-        _________________QWERTY_L1_________________, _________________QWERTY_R1_________________,
-        _________________QWERTY_L2_________________, _________________QWERTY_R2_________________,
-        _________________QWERTY_L3_________________, _________________QWERTY_R3_________________
-        ),
-
-    [_COLEMAK] = LAYOUT_gergo_base_wrapper(
-        ______________COLEMAK_MOD_DH_L1____________, ______________COLEMAK_MOD_DH_R1____________,
-        ______________COLEMAK_MOD_DH_L2____________, ______________COLEMAK_MOD_DH_R2____________,
-        ______________COLEMAK_MOD_DH_L3____________, ______________COLEMAK_MOD_DH_R3____________
-    ),
-
-    [_WORKMAN] = LAYOUT_gergo_base_wrapper(
-        _________________WORKMAN_L1________________, _________________WORKMAN_R1________________,
-        _________________WORKMAN_L2________________, _________________WORKMAN_R2________________,
-        _________________WORKMAN_L3________________, _________________WORKMAN_R3________________
-    ),
-
-    [_NORMAN] = LAYOUT_gergo_base_wrapper(
-        _________________NORMAN_L1_________________, _________________NORMAN_L1_________________,
-        _________________NORMAN_L2_________________, _________________NORMAN_R2_________________,
-        _________________NORMAN_L3_________________, _________________NORMAN_R3_________________
-    ),
-
-    [_MODS] = LAYOUT_gergo_wrapper(
-        _______, ___________________BLANK___________________,                                           ___________________BLANK___________________, _______,
-        _______, ___________________BLANK___________________, _______,                         _______, ___________________BLANK___________________, _______,
-        _______, ___________________BLANK___________________, _______, _______,       _______, _______, ___________________BLANK___________________, _______,
-                                            _______, _______, _______, _______,       _______, _______, _______, _______
-        ),
-    [_LOWER] = LAYOUT_gergo_wrapper(
-        KC_TILDE, _________________LOWER_L1__________________,                                           _________________LOWER_R1__________________, KC_PIPE,
-        _______,  _________________LOWER_L2__________________, _______,                         _______, _________________LOWER_R2__________________, _______,
-        _______,  _________________LOWER_L3__________________, _______, _______,       _______, _______, _________________LOWER_R3__________________, _______,
-                                            _______, _______, _______, _______,       _______, _______, _______, _______
-        ),
-
-    [_RAISE] = LAYOUT_gergo_wrapper(
-        KC_GRAVE, _________________RAISE_L1__________________,                                           _________________RAISE_R1__________________, KC_BSLS,
-        _______,  _________________RAISE_L2__________________, _______,                         _______, _________________RAISE_R2__________________, _______,
-        _______,  _________________RAISE_L3__________________, _______, _______,       _______, _______, _________________RAISE_R3__________________, _______,
-                                            _______, _______, _______, _______,       _______, _______, _______, _______
-        ),
-
-    [_ADJUST] = LAYOUT_gergo_wrapper(
-        KC_MAKE, _________________ADJUST_L1_________________,                                           _________________ADJUST_R1_________________, KC_RESET,
-        VRSN,    _________________ADJUST_L2_________________, _______,                         _______, _________________ADJUST_R2_________________, EEP_RST,
-        _______, _________________ADJUST_L3_________________, _______, _______,       _______, _______, _________________ADJUST_R3_________________, TG_MODS,
-                                            _______, _______, _______, _______,       _______, _______, _______, _______
-        ),
-
+  [BASE] = LAYOUT_miryoku(
+    KC_Q,              KC_W,              KC_F,              KC_P,              KC_B,              KC_J,              KC_L,              KC_U,              KC_Y,              KC_QUOT,
+    LGUI_T(KC_A),      LALT_T(KC_R),      LCTL_T(KC_S),      LSFT_T(KC_T),      KC_G,              KC_M,              LSFT_T(KC_N),      LCTL_T(KC_E),      LALT_T(KC_I),      LGUI_T(KC_O),
+    KC_Z,              ALGR_T(KC_X),      KC_C,              KC_D,              KC_V,              KC_K,              KC_H,              KC_COMM,           ALGR_T(KC_DOT),    KC_SLSH,
+    KC_NP,             KC_NP,             LT(MEDR, KC_ESC),  LT(NAVR, KC_SPC),  LT(MOUR, KC_TAB),  LT(NSSL, KC_ENT), LT(NSL, KC_BSPC),   LT(FUNL, KC_DEL),  KC_NP,             LT(KC_RST, KC_NP)
+  ),
+  [NAVR] = LAYOUT_miryoku(
+    KC_RST,  KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_AGIN, KC_UNDO, KC_CUT,  KC_COPY, KC_PSTE,
+    KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_NA,   KC_CAPS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,
+    KC_NA,   KC_ALGR, KC_NA,   KC_NA,   KC_NA,   KC_INS,  KC_HOME, KC_PGDN, KC_PGUP, KC_END,
+    KC_NP,   KC_NP,   KC_NA,   KC_NA,   KC_NA,   KC_ENT,  KC_BSPC, KC_DEL,  KC_NP,   KC_NP
+  ),
+  [MOUR] = LAYOUT_miryoku(
+    KC_RST,  KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NU,   KC_NU,   KC_NU,   KC_NU,   KC_NU,
+    KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_NA,   KC_NU,   KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,
+    KC_NA,   KC_ALGR, KC_NA,   KC_NA,   KC_NA,   KC_NU,   KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R,
+    KC_NP,   KC_NP,   KC_NA,   KC_NA,   KC_NA,   KC_BTN1, KC_BTN3, KC_BTN2, KC_NP,   KC_NP
+  ),
+  [MBO] = LAYOUT_miryoku(
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_NP,   KC_NP,   KC_TRNS, KC_TRNS, KC_TRNS, KC_BTN1, KC_BTN3, KC_BTN2, KC_NP,   KC_NP
+  ),
+  [MEDR] = LAYOUT_miryoku(
+    KC_RST,  KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_TOG,  KC_MOD,  KC_HUI,  KC_SAI,  KC_VAI,
+    KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_NA,   KC_NU,   KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,
+    KC_NA,   KC_ALGR, KC_NA,   KC_NA,   KC_NA,   KC_NU,   KC_NU,   KC_NU,   KC_NU,   KC_NU,
+    KC_NP,   KC_NP,   KC_NA,   KC_NA,   KC_NA,   KC_MSTP, KC_MPLY, KC_MUTE, KC_NP,   KC_NP
+  ),
+  [FUNL] = LAYOUT_miryoku(
+    KC_F12,  KC_F7,   KC_F8,   KC_F9,   KC_PSCR, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_RST,
+    KC_F11,  KC_F4,   KC_F5,   KC_F6,   KC_SLCK, KC_NA,   KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
+    KC_F10,  KC_F1,   KC_F2,   KC_F3,   KC_PAUS, KC_NA,   KC_NA,   KC_NA,   KC_ALGR, KC_NA,
+    KC_NP,   KC_NP,   KC_APP,  KC_SPC,  KC_TAB,  KC_NA,   KC_NA,   KC_NA,   KC_NP,   KC_NP
+  ),
+  [NSL] = LAYOUT_miryoku(
+    KC_LBRC, KC_7,    KC_8,    KC_9,    KC_RBRC, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_RST,
+    KC_SCLN, KC_4,    KC_5,    KC_6,    KC_EQL,  KC_NA,   KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
+    KC_GRV,  KC_1,    KC_2,    KC_3,    KC_BSLS, KC_NA,   KC_NA,   KC_NA,   KC_ALGR, KC_NA,
+    KC_NP,   KC_NP,   KC_DOT,  KC_0,    KC_MINS, KC_NA,   KC_NA,   KC_NA,   KC_NP,   KC_NP
+  ),
+  [NSSL] = LAYOUT_miryoku(
+    KC_LCBR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RCBR, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_RST,
+    KC_COLN, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS, KC_NA,   KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
+    KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_PIPE, KC_NA,   KC_NA,   KC_NA,   KC_ALGR, KC_NA,
+    KC_NP,   KC_NP,   KC_GT,   KC_RPRN, KC_UNDS, KC_NA,   KC_NA,   KC_NA,   KC_NP,   KC_NP
+  )
 };
-
-/* Keymap template
-
-    [SYMB] = LAYOUT_gergo_wrapper(
-        _______, _______, _______, _______, _______, _______,                                           _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,                         _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______, _______, _______, _______,
-                                            _______, _______, _______, _______,       _______, _______, _______, _______
-        ),
-
-    */
-// clang-format on

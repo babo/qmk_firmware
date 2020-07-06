@@ -1,36 +1,16 @@
-CONSOLE_ENABLE = no
-COMMAND_ENABLE = no
-
-# Firmware options
-BALLER = yes 			# Enable to ball out
-BALLSTEP = 20  			# Multiple in px to move, multiplied by layer number
-SCROLLSTEP = 1 			# Lines to scroll with ball
-MOUSEKEY_ENABLE = yes  		# Mouse keys(+4700), needed for baller
-
-#Debug options
-VERBOSE 		 = no
-DEBUG_MATRIX_SCAN_RATE   = no
-DEBUG_BALLER 		 = no
-DEBUG_MATRIX		 = no
-
-# A bunch of stuff that you shouldn't touch unless you
-# know what you're doing.
-#
-# No touchy, capiche?
-SRC += matrix.c i2c_master.c
-ifneq ($(strip $(BALLSTEP)),)
-    OPT_DEFS += -DTRKSTEP=$(strip $(BALLSTEP))
-endif
-ifneq ($(strip $(SCROLLSTEP)),)
-    OPT_DEFS += -DSCROLLSTEP=$(strip $(SCROLLSTEP))
-endif
-ifeq ($(strip $(BALLER)), yes)
-    OPT_DEFS += -DBALLER
-	POINTING_DEVICE_ENABLE = yes
-endif
-ifeq ($(strip $(DEBUG_BALLER)), yes)
-    OPT_DEFS += -DDEBUG_BALLER
-endif
-ifeq ($(strip $(DEBUG_MATRIX)), yes)
-    OPT_DEFS += -DDEBUG_MATRIX
-endif
+AUDIO_ENABLE = no           # Audio output on port C6
+BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
+BLUETOOTH_ENABLE = no       # Enable Bluetooth with the Adafruit EZ-Key HID
+BOOTMAGIC_ENABLE = no       # Virtual DIP switch configuration(+1000)
+COMMAND_ENABLE = no         # Commands for debug and configuration
+CONSOLE_ENABLE = no         # Console for debug(+400)
+EXTRAKEY_ENABLE = yes       # Audio control and System control(+450)
+MIDI_ENABLE = no            # MIDI controls
+MOUSEKEY_ENABLE = yes       # Mouse keys(+4700)
+NKRO_ENABLE = yes           # Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
+OLED_DRIVER_ENABLE = no     # OLED display
+RGBLIGHT_ENABLE = no        # Enable WS2812 RGB underlight.
+SLEEP_LED_ENABLE = no       # Breathing sleep LED during USB suspend
+SPLIT_KEYBOARD = yes        # Use split_common libraries
+TAP_DANCE_ENABLE = no       # Enable tapdance
+UNICODE_ENABLE = yes        # Unicode
