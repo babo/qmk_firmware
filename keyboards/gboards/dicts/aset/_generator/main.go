@@ -120,9 +120,7 @@ func (e Entry) toKeymap(prefix string) string {
         } else {
             command = "KEYS("
         }
-    }
 
-    if ok {
         if len(v) > 1 {
             arg += "{"
         }
@@ -145,16 +143,13 @@ func (e Entry) toKeymap(prefix string) string {
         } else {
             arg = fmt.Sprintf("%65v", arg)
         }
+    } else {
 
-        goto Found
-    }
+        // Parse out word info
+        if wordInfo.LRank == 0 && wordInfo.RRank == 0 {
+            return ""
+        }
 
-    // Parse out word info
-    if wordInfo.LRank == 0 && wordInfo.RRank == 0 {
-        goto Blank
-    }
-
-    if wordInfo.LRank != 0 || wordInfo.RRank != 0 {
         if wordInfo.LRank != 0 && wordInfo.RRank != 0 {
             // Just blank the structure and recall
             left, right := e, e
@@ -179,17 +174,10 @@ func (e Entry) toKeymap(prefix string) string {
         command = "SUBS("
         wordSpacer := strings.Repeat(" ", 40-len(word))
         arg = fmt.Sprintf("%v, %v \"%v \"", hashStr, wordSpacer, word)
-        goto Found
     }
 
-    panic(e.String())
-
-Found:
     chord += ","
     return fmt.Sprintf("%v%-35v%v)\n", command, chord, arg)
-
-Blank:
-    return ""
 }
 
 type Entry struct {
@@ -199,6 +187,7 @@ type Entry struct {
     Trw     []interface{}
     Special string
 }
+
 type Word struct {
     LWord string
     LRank float64
@@ -217,6 +206,7 @@ func parseWords(e Entry) (ret Word) {
     }
     return ret
 }
+
 func (e Entry) String() (ret string) {
     ret = fmt.Sprintln("Input: ", e.Input)
     ret += fmt.Sprintln("Base: ", e.Base)
