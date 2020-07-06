@@ -160,7 +160,7 @@ func (e Entry) toKeymap(prefix string) string {
             left, right := e, e
             left.Trw = nil
             right.Tlw = nil
-            return fmt.Sprintf("%v%v", left.toKeymap("LFT|"), right.toKeymap("RGT|"))
+            return fmt.Sprintf("%v%v", left.toKeymap(""), right.toKeymap("RGT|"))
         }
 
         var word string
