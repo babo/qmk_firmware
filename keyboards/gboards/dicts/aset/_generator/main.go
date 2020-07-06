@@ -236,7 +236,7 @@ var QMKLookup = map[string][]string{
     "-": []string{"KC_MINS"},
     ".": []string{"KC_DOT"},
     ";": []string{"KC_SCLN"},
-    "?": []string{"KC_QUOT"},
+    "?": []string{"KC_SLSH"},
     "a": []string{"KC_A"},
     "b": []string{"KC_B"},
     "c": []string{"KC_C"},
