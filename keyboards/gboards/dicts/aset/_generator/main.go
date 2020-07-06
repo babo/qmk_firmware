@@ -61,14 +61,13 @@ func main() {
 
         // Sort by length, then amount of whitespace lol
         sort.Slice(output, func(i, j int) bool {
-            var maxLen int
-            if len(output[i]) > len(output[j]) {
-                maxLen = len(output[i])
+            var c1 = strings.Count(output[i][:40], " ")
+            var c2 = strings.Count(output[j][:40], " ")
+            if c1 == c2 {
+                return strings.Compare(output[i], output[j]) < 0
             } else {
-                maxLen = len(output[j])
+                return c1 > c2
             }
-
-            return maxLen-strings.Count(output[i][:40], " ") < maxLen-strings.Count(output[j][:40], " ")
         })
 
         // Whack a disclaimer
