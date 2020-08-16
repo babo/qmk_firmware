@@ -13,4 +13,4 @@ RGBLIGHT_ENABLE = no        # Enable WS2812 RGB underlight.
 SLEEP_LED_ENABLE = no       # Breathing sleep LED during USB suspend
 SPLIT_KEYBOARD = yes        # Use split_common libraries
 TAP_DANCE_ENABLE = no       # Enable tapdance
-UNICODE_ENABLE = yes        # Unicode
+UNICODEMAP_ENABLE = yes     # Unicode
