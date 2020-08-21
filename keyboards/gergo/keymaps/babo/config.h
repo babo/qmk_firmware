@@ -20,7 +20,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+// default but important
+#define TAPPING_TERM 200
+
+// Prevent normal rollover on alphas from accidentally triggering mods.
 #define IGNORE_MOD_TAP_INTERRUPT
+
+// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
+#define TAPPING_FORCE_HOLD
+
+// Recommended for heavy chording.
+#define QMK_KEYS_PER_SCAN 4
+
+#define RETRO_TAPPING
 
 #define LAYOUT_miryoku( \
        K00,   K01,   K02,   K03,   K04,   K05,   K06,   K07,   K08,   K09, \
