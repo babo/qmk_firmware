@@ -124,7 +124,7 @@
 #elif defined(KEYBOARD_crkbd)
 #    define TAPPING_TERM 200
 #else
-#    define TAPPING_TERM 175
+#    define TAPPING_TERM 200
 #endif
 
 #define TAP_CODE_DELAY 5
