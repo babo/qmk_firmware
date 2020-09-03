@@ -16,22 +16,16 @@
 
 #pragma once
 
-#define EE_HANDS
-
 #ifdef OLED_DRIVER_ENABLE
-#    define OLED_DISPLAY_128X64
-#    define OLED_FONT_H "font_gmk_bad.h"
-#    define OLED_DISABLE_TIMEOUT
-#    define OLED_SCROLL_TIMEOUT_RIGHT 60000
+  #define OLED_DISPLAY_128X64
 #endif
 
 #ifdef RGBLIGHT_ENABLE
-#    define RGBLIGHT_SLEEP
-#    define RGBLIGHT_LIMIT_VAL 200
-#    define RGBLIGHT_HUE_STEP 8
-#    define RGBLIGHT_SAT_STEP 8
-#    define RGBLIGHT_VAL_STEP 8
-#    define RGBLIGHT_SPLIT
+//  #define RGBLIGHT_ANIMATIONS
+  #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
+  #define RGBLIGHT_HUE_STEP 8
+  #define RGBLIGHT_SAT_STEP 8
+  #define RGBLIGHT_VAL_STEP 8
 #endif
 
 #define LAYOUT_miryoku( \
@@ -46,3 +40,8 @@ LAYOUT_split_3x5_3( \
     K20,   K21,   K22,   K23,   K24,      K25,   K26,   K27,   K28,   K29, \
                   K32,   K33,   K34,      K35,   K36,   K37    \
 )
+
+#undef TAPPING_TERM
+#define TAPPING_TERM 220
+#define PERMISSIVE_HOLD
+#define IGNORE_MOD_TAP_INTERRUPT
