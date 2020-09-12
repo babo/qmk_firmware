@@ -2,6 +2,7 @@
 #include "split_util.h"
 
 #include "manna-harbour_miryoku.h"
+#include "babo.h"
 
 uint8_t is_master;
 uint16_t rgb_edit_timer = 0;
@@ -19,7 +20,6 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 }
 
 void matrix_init_keymap(void) { is_master = (uint8_t)is_keyboard_master(); }
-
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {

@@ -1,0 +1,12 @@
+COMB(odi, ODI, KC_W, KC_F)
+COMB(oda, ODA, KC_X, KC_C)
+COMB(udi, UDI, KC_L, KC_U)
+COMB(uda, UDA, KC_H, KC_COMM)
+
+COMB(eac, EAC, KC_F, KC_P)
+COMB(aac, AAC, KC_C, KC_D)
+COMB(iac, IAC, KC_W, KC_P)
+COMB(oac, OAC, KC_X, KC_D)
+COMB(uac, UAC, KC_L, KC_Y)
+
+COMB(tro, KC_Q, KC_J, KC_Y)

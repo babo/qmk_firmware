@@ -3,6 +3,7 @@ BACKLIGHT_ENABLE = no      # Enable keyboard backlight functionality on B7 by de
 BLUETOOTH_ENABLE = no      # Enable Bluetooth with the Adafruit EZ-Key HID
 BOOTLOADER = atmel-dfu
 BOOTMAGIC_ENABLE = no      # Virtual DIP switch configuration
+COMBO_ENABLE = yes
 COMMAND_ENABLE = no        # Commands for debug and configuration
 CONSOLE_ENABLE = yes       # Console for debug
 ENCODER_ENABLE = no        # Enables the use of one or more encoders
@@ -16,7 +17,8 @@ NKRO_ENABLE = yes          # USB Nkey Rollover
 OLED_DRIVER_ENABLE = yes    # Enables the use of OLED displays
 RGBLIGHT_ENABLE = yes      # Enable keyboard RGB underglow
 RGBLIGHT_STARTUP_ANIMATION = yes
-UNICODE_ENABLE = yes       # Unicode
+UNICODEMAP_ENABLE = yes     # Unicode
+VPATH += users/babo
 # Bootloader selection
 #   Teensy       halfkay
 #   Pro Micro    caterina
