@@ -7,6 +7,7 @@
 uint8_t is_master;
 uint16_t rgb_edit_timer = 0;
 uint16_t last_rgb_char = 0;
+uint16_t unicode_mode = UC_LNX;
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
@@ -23,6 +24,11 @@ void matrix_init_keymap(void) { is_master = (uint8_t)is_keyboard_master(); }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case UC_M_MA:
+        case UC_M_LN:
+        case UC_M_WI:
+            unicode_mode = keycode;
+            break;
         case RGB_TOG:
         case RGB_MOD:
         case RGB_HUD:
@@ -33,7 +39,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RGB_VAD:
             rgb_edit_timer = timer_read();
             last_rgb_char = keycode;
-            return true;
+            break;
     }
 
     return true;
@@ -58,7 +64,25 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 void render_default_layer_state(void) {
-    oled_write_P(PSTR("Layout: Colemak DH"), false);
+    // oled_write_P(PSTR("Layout: Colemak DH"), false);
+    char m = '-';
+    switch(unicode_mode) {
+        case UC_M_MA:
+            m = 'M';
+            break;
+        case UC_M_LN:
+            m = 'L';
+            break;
+        case UC_M_WI:
+            m = 'W';
+            break;
+        default:
+            m = '?';
+            break;
+    }
+    oled_write_P(PSTR("Unicode mode "), false);
+    oled_write_char(m, false);
+    oled_write_char('\n', false);
 }
 
 #ifdef RGBLIGHT_ENABLE
@@ -76,13 +100,14 @@ void render_rgb_state(void) {
     uint8_t hue = (rgblight_get_hue()*width/255),
         sat = (rgblight_get_sat()*width/255),
         val = (rgblight_get_val()*width/255);
-    bool changing_hue = timer_elapsed(rgb_edit_timer) < 1000 && (last_rgb_char == RGB_HUI || last_rgb_char == RGB_HUD);
-    bool changing_sat =  timer_elapsed(rgb_edit_timer) < 1000 && (last_rgb_char == RGB_SAI || last_rgb_char == RGB_SAD);
-    bool changing_val =  timer_elapsed(rgb_edit_timer) < 1000 && (last_rgb_char == RGB_VAI || last_rgb_char == RGB_VAD);
+    bool recent = timer_elapsed(rgb_edit_timer) < 1000;
+    bool changing_hue = recent && (last_rgb_char == RGB_HUI || last_rgb_char == RGB_HUD);
+    bool changing_sat = recent && (last_rgb_char == RGB_SAI || last_rgb_char == RGB_SAD);
+    bool changing_val = recent && (last_rgb_char == RGB_VAI || last_rgb_char == RGB_VAD);
 
     uint8_t i;
 
-    oled_write_ln_P(PSTR(""), false);
+    // oled_write_ln_P(PSTR(""), false);
 
     oled_write_P(PSTR("Hue:    ["), changing_hue);
     for(i = 0; i < width; ++i) {
