@@ -14,3 +14,10 @@ KC_NO, K10,   K11,   K12,   K13,   K14,   K15,   K16,   K17,   K18,   K19,   KC_
 KC_NO, K20,   K21,   K22,   K23,   K24,   K25,   K26,   K27,   K28,   K29,   KC_NO, \
                      K32,   K33,   K34,   K35,   K36,   K37 \
 )
+
+#undef TAPPING_TERM
+#define TAPPING_TERM 220
+#define PERMISSIVE_HOLD
+#define IGNORE_MOD_TAP_INTERRUPT
+
+#define UNICODE_SELECTED_MODES UC_MAC, UC_LNX, UC_WINC
